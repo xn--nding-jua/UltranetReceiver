@@ -1,1 +1,1 @@
-vidorcvt.exe < KDEE_HiResPG.ttf > KDEE_HiResPG.h
+vidorcvt.exe < UltranetReceiver.ttf > UltranetReceiver.h

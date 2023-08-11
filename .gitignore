@@ -1,0 +1,18 @@
+# Binaries
+*.exe
+*.dcu
+*.bak
+
+# Directories
+db/
+Documentation/
+greybox_tmp/
+incremental_db/
+output_files/
+Rohdateien/
+
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+[Rr]eleases/

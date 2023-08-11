@@ -1,0 +1,6 @@
+# compile the software
+gcc -o vidorcvt vidorcvt.c
+
+# convert ttf-file to header-file
+./vidorcvt < Input.ttf > Output.h
+vidorcvt.exe < KDEE_HiResPG.ttf > KDEE_HiResPG.h

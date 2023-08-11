@@ -4,6 +4,7 @@
 
 # Directories
 db/
+FPGA_Loader/build/
 Documentation/
 greybox_tmp/
 incremental_db/

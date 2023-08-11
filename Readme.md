@@ -1,4 +1,5 @@
 
+
 # UltranetReceiver
 
 ## Overview
@@ -6,7 +7,7 @@ This repository contains a FPGA-based receiver for audio-data based on Behringer
 
 It is planned to use the FPGA to mix all 16 channels into a single L/R-Signal that will be converted to SP/DIF and then to analog audio. Using a cheap Behringer P16-I it will be possible to create a digital 16-channel mixer controlled by the SAMD21-microcontroller on the Vidor 4000.
 
-This project is right at the beginning (Alpha State) and is still under development. Feel free to support me!
+**This project is right at the beginning (Alpha State) and is still under development. Feel free to support me!**
 
 ## What's done so far?
 * FPGA-bitstream can be programmed via SAMD21-controller using Arduino IDE
@@ -21,6 +22,22 @@ This project is right at the beginning (Alpha State) and is still under developm
 * implement audio-routing functions
 * add SD-card recording(?)
 * add controlling via network and USB (Arduino-code for SAMD21-controller)
+
+## Hardware
+Only a few components are necessary:
+* MagJack SI-52008-F for interfacing with UltraNet
+* AM26LV32CD RS-422-IC-Interface Quad Diff
+* Optional: CS4344 Audio-DAC with I2S-Interface
+
+UltraNet-Channel 1-8 and 9-16 are connected to the SI-52008-F via Ethernet-Cable. TD+ and TD- of each pair is then connected to the AM26LV32CD-quad-diff-line-driver-IC that is connected via two wires to the Arduino MKR Vidor 4000.
+
+Optional a CS4344 Audio DAC can be attached to the Vidor 4000 using four wires:
+* MCLK (Masterclock)
+* LRCLK (Word-Clock or LR-Clock)
+* SCLK (Bitclock or Serial-Clock)
+* DATA (Serial-Data)
+
+An SP/DIF or TOSLINK-Adapter can be attached to the Vidor as well to test the outputs without a DAC. That's it for now.
 
 ## How to compile?
 ### FPGA

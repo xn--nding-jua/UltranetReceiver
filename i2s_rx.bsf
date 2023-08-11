@@ -21,9 +21,9 @@ https://fpgasoftware.intel.com/eula.
 */
 (header "symbol" (version "1.1"))
 (symbol
-	(rect 16 16 248 224)
+	(rect 16 16 248 160)
 	(text "i2s_rx" (rect 5 0 29 12)(font "Arial" ))
-	(text "inst" (rect 8 192 20 204)(font "Arial" ))
+	(text "inst" (rect 8 128 20 140)(font "Arial" ))
 	(port
 		(pt 0 32)
 		(input)
@@ -62,65 +62,23 @@ https://fpgasoftware.intel.com/eula.
 	(port
 		(pt 232 32)
 		(output)
-		(text "ch1_out[(data_width-1)..0]" (rect 0 0 100 12)(font "Arial" ))
-		(text "ch1_out[(data_width-1)..0]" (rect 111 27 211 39)(font "Arial" ))
+		(text "ch_out_l[(data_width-1)..0]" (rect 0 0 103 12)(font "Arial" ))
+		(text "ch_out_l[(data_width-1)..0]" (rect 108 27 211 39)(font "Arial" ))
 		(line (pt 232 32)(pt 216 32)(line_width 3))
 	)
 	(port
 		(pt 232 48)
 		(output)
-		(text "ch2_out[(data_width-1)..0]" (rect 0 0 101 12)(font "Arial" ))
-		(text "ch2_out[(data_width-1)..0]" (rect 110 43 211 55)(font "Arial" ))
+		(text "ch_out_r[(data_width-1)..0]" (rect 0 0 106 12)(font "Arial" ))
+		(text "ch_out_r[(data_width-1)..0]" (rect 105 43 211 55)(font "Arial" ))
 		(line (pt 232 48)(pt 216 48)(line_width 3))
 	)
 	(port
 		(pt 232 64)
 		(output)
-		(text "ch3_out[(data_width-1)..0]" (rect 0 0 101 12)(font "Arial" ))
-		(text "ch3_out[(data_width-1)..0]" (rect 110 59 211 71)(font "Arial" ))
-		(line (pt 232 64)(pt 216 64)(line_width 3))
-	)
-	(port
-		(pt 232 80)
-		(output)
-		(text "ch4_out[(data_width-1)..0]" (rect 0 0 102 12)(font "Arial" ))
-		(text "ch4_out[(data_width-1)..0]" (rect 109 75 211 87)(font "Arial" ))
-		(line (pt 232 80)(pt 216 80)(line_width 3))
-	)
-	(port
-		(pt 232 96)
-		(output)
-		(text "ch5_out[(data_width-1)..0]" (rect 0 0 101 12)(font "Arial" ))
-		(text "ch5_out[(data_width-1)..0]" (rect 110 91 211 103)(font "Arial" ))
-		(line (pt 232 96)(pt 216 96)(line_width 3))
-	)
-	(port
-		(pt 232 112)
-		(output)
-		(text "ch6_out[(data_width-1)..0]" (rect 0 0 101 12)(font "Arial" ))
-		(text "ch6_out[(data_width-1)..0]" (rect 110 107 211 119)(font "Arial" ))
-		(line (pt 232 112)(pt 216 112)(line_width 3))
-	)
-	(port
-		(pt 232 128)
-		(output)
-		(text "ch7_out[(data_width-1)..0]" (rect 0 0 101 12)(font "Arial" ))
-		(text "ch7_out[(data_width-1)..0]" (rect 110 123 211 135)(font "Arial" ))
-		(line (pt 232 128)(pt 216 128)(line_width 3))
-	)
-	(port
-		(pt 232 144)
-		(output)
-		(text "ch8_out[(data_width-1)..0]" (rect 0 0 101 12)(font "Arial" ))
-		(text "ch8_out[(data_width-1)..0]" (rect 110 139 211 151)(font "Arial" ))
-		(line (pt 232 144)(pt 216 144)(line_width 3))
-	)
-	(port
-		(pt 232 160)
-		(output)
 		(text "new_data" (rect 0 0 37 12)(font "Arial" ))
-		(text "new_data" (rect 174 155 211 167)(font "Arial" ))
-		(line (pt 232 160)(pt 216 160)(line_width 1))
+		(text "new_data" (rect 174 59 211 71)(font "Arial" ))
+		(line (pt 232 64)(pt 216 64)(line_width 1))
 	)
 	(parameter
 		"DATA_WIDTH"
@@ -133,7 +91,7 @@ https://fpgasoftware.intel.com/eula.
 		""
 		(type "PARAMETER_SIGNED_DEC")	)
 	(drawing
-		(rectangle (rect 16 16 216 192)(line_width 1))
+		(rectangle (rect 16 16 216 128)(line_width 1))
 	)
 	(annotation_block (parameter)(rect 248 -64 348 16))
 )

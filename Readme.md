@@ -39,6 +39,16 @@ Optional a CS4344 Audio DAC can be attached to the Vidor 4000 using four wires:
 
 An SP/DIF or TOSLINK-Adapter can be attached to the Vidor as well to test the outputs without a DAC. That's it for now.
 
+Connectors at the Vidor 4000:
+* D0 = UltraNet Ch1-8 (from AM26LV32CD)
+* D1 = UltraNet Ch9-16 (from AM26LV32CD)
+* D3 = SP/DIF output (to TOSLINK adapter)
+* D4 = MCLK (I2S to CS4344)
+* D5 = LRCLK (I2S to CS4344)
+* D6 = SCLK (I2S to CS4344)
+* D7 = SDATA (I2S to CS4344)
+
+
 ## How to compile?
 ### FPGA
 * Open Intel Quartus Prime Lite Edition (no license required)

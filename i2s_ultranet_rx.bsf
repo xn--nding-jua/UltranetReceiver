@@ -69,8 +69,8 @@ https://fpgasoftware.intel.com/eula.
 	(port
 		(pt 200 48)
 		(output)
-		(text "frame_out[7..0]" (rect 0 0 62 12)(font "Arial" ))
-		(text "frame_out[7..0]" (rect 117 43 179 55)(font "Arial" ))
+		(text "channel[7..0]" (rect 0 0 49 12)(font "Arial" ))
+		(text "channel[7..0]" (rect 130 43 179 55)(font "Arial" ))
 		(line (pt 200 48)(pt 184 48)(line_width 3))
 	)
 	(port
@@ -80,13 +80,7 @@ https://fpgasoftware.intel.com/eula.
 		(text "new_data" (rect 142 59 179 71)(font "Arial" ))
 		(line (pt 200 64)(pt 184 64)(line_width 1))
 	)
-	(parameter
-		"BITPERFRAME"
-		"32"
-		""
-		(type "PARAMETER_SIGNED_DEC")	)
 	(drawing
 		(rectangle (rect 16 16 184 128)(line_width 1))
 	)
-	(annotation_block (parameter)(rect 216 -64 316 16))
 )

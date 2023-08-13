@@ -16,15 +16,15 @@ use ieee.numeric_std.all; -- lib for unsigned and signed
 
 entity i2s_ultranet_rx is
 	port (
-			clk 		: in std_logic; -- Master clock
-			bsync		: in std_logic; -- Block start (asserted when Z subframe is being transmitted)
-         bclk 		: in std_logic; -- output serial data clock (AES3-clock)
-         sdata		: in std_logic; -- output serial data
-         lrclk		: in std_logic; -- Frame sync (asserted for channel A, negated for B)
+		clk 		: in std_logic; -- Master clock
+		bsync		: in std_logic; -- Block start (asserted when Z subframe is being transmitted)
+        bclk 		: in std_logic; -- output serial data clock (AES3-clock)
+        sdata		: in std_logic; -- output serial data
+        lrclk		: in std_logic; -- Frame sync (asserted for channel A, negated for B)
 			
-         sample_out	: out std_logic_vector(23 downto 0); -- received audio-sample
-         channel	: out unsigned(7 downto 0); -- received channel-number
-         new_data	: out std_logic -- new data received successfully
+        sample_out	: out std_logic_vector(23 downto 0); -- received audio-sample
+        channel		: out unsigned(7 downto 0); -- received channel-number
+        new_data	: out std_logic -- new data received successfully
         );
 end i2s_ultranet_rx;
 
@@ -38,7 +38,7 @@ architecture rtl of i2s_ultranet_rx is
 	signal zlrclk, zzlrclk, zzzlrclk: std_logic;
 	signal cnt						: integer range 0 to 31 := 0;
 	
-	signal chn_cnt					: integer range 0 to 8 := 1;
+	signal chn_cnt					: integer range 0 to 8 := 0;
 begin
 	detect_edge : process(clk)
 	begin
@@ -76,12 +76,16 @@ begin
 		if rising_edge(clk) then
 			if bsync = '1' then -- begin of new block (means channel 1 on Ultranet)
 				cnt <= 0;
-				chn_cnt <= 1; -- reset channel-counter to 1
+				chn_cnt <= 0; -- reset channel-counter to 0 (will be increased to 1 on next clock)
 				new_data <= '0';
 			else
 				if lr_edge = '1' then -- rising or falling edge on LRCLK detected
 					cnt <= 0;
-					chn_cnt <= chn_cnt + 1; -- increase channel-counter on each LRCLK-edge
+					if chn_cnt < 8 then
+						chn_cnt <= chn_cnt + 1; -- increase channel-counter on each LRCLK-edge
+					else
+						chn_cnt <= 1; -- reset to 1 as we are receiving a bsync only every 24 channels (192 / 8ch)
+					end if;
 				end if;
 				if pos_edge = '1' then
 					if cnt < 24 + 1 then

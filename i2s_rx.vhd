@@ -6,14 +6,14 @@ entity i2s_rx is
     		  BITPERFRAME : integer := 24
     		);
 	port (
-			clk 		: in std_logic;
-			bsync		: in std_logic;
-         bclk 		: in std_logic;
-         sdata		: in std_logic;
-         lrclk		: in std_logic;
-         ch_out_l	: out std_logic_vector(DATA_WIDTH - 1 downto 0);
-         ch_out_r	: out std_logic_vector(DATA_WIDTH - 1 downto 0);
-         new_data	: out std_logic
+		clk 		: in std_logic;
+		bsync		: in std_logic;
+        bclk 		: in std_logic;
+        sdata		: in std_logic;
+        lrclk		: in std_logic;
+        ch_out_l	: out std_logic_vector(DATA_WIDTH - 1 downto 0);
+        ch_out_r	: out std_logic_vector(DATA_WIDTH - 1 downto 0);
+        new_data	: out std_logic
         );
 end i2s_rx;
 

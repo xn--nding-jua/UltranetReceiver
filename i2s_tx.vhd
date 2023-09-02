@@ -6,27 +6,27 @@ entity i2s_tx is
     		  BITPERFRAME : integer := 24
     		);
 	port (
-    	clk 		: in std_logic;
-        reset 		: in std_logic;
-    	bclk 		: in std_logic;
-		lrclk		: in std_logic;
-        sample_l	: in std_logic_vector(DATA_WIDTH - 1 downto 0);
-        sample_r	: in std_logic_vector(DATA_WIDTH - 1 downto 0);
-        serial_data	: out std_logic;
-        ready 		: out std_logic
+			clk 			: in std_logic;
+			reset 		: in std_logic;
+			bclk 			: in std_logic;
+			lrclk			: in std_logic;
+			sample_l		: in std_logic_vector(DATA_WIDTH - 1 downto 0);
+			sample_r		: in std_logic_vector(DATA_WIDTH - 1 downto 0);
+			serial_data	: out std_logic;
+			ready 		: out std_logic
         );
 end i2s_tx;
 
 architecture rtl of i2s_tx is
     signal neg_edge, pos_edge : std_logic;
-    signal lr_edge					: std_logic;
+    signal lr_edge				: std_logic;
     signal new_sample 			: std_logic;
 	 
     signal zbclk, zzbclk, zzzbclk 	: std_logic;
 	 signal zlrclk, zzlrclk, zzzlrclk: std_logic;
 	 
     signal cnt						: integer range 0 to 31 := 0;
-    signal sr_out 				: std_logic_vector(DATA_WIDTH - 1 downto 0);
+    signal sr_out					: std_logic_vector(DATA_WIDTH - 1 downto 0);
     
 begin
 	detect_edge : process(clk)

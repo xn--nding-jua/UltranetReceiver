@@ -10,23 +10,22 @@ It is planned to use the FPGA to mix all 16 channels into a single L/R-Signal th
 **This project is right at the beginning (Alpha State) and is still under development. Feel free to support me!**
 
 ## What's done so far?
-* FPGA-bitstream can be programmed via SAMD21-controller using Arduino IDE
-* Receiver for stereo AES/EBU-signals seems to work
-* 16-channel AES/EBU signal is converted to I2S
-* I2S-signal is converted to 16 individual std_logic_vectors (samples)
-* for testing two samples are converted to I2S for a CS4344-DAC and into stereo SP/DIF
+* FPGA-bitstream can be programmed via SAMD21-controller using Arduino IDE (so no special hardware is necessary)
+* receiving of 2 streams of 8-Channel-Ultranet (192kHz AES3-EBU-like) is tested and working
+* 2x 8-channel AES/EBU signal is converted to 2x I2S
+* 2x I2S-signal is converted to 2x 8 individual std_logic_vectors (these are the audio-samples)
+* commercial cheap coaxial-SPDIF-converters can be used to output the audio
 
 ## What has to be done?
-* testing of ultranet-receiver
-* implementing multiplicator for volume-control of each channel
-* implement audio-routing functions
-* add SD-card recording(?)
+* implementing volume-control of each channel
 * add controlling via network and USB (Arduino-code for SAMD21-controller)
+* add SD-card recording(depends on time...)
 
 ## Hardware
 Only a few components are necessary:
 * MagJack SI-52008-F for interfacing with UltraNet
 * AM26LV32CD RS-422-IC-Interface Quad Diff
+* cheap TOSLINK/SPDIF audio-converter can be connected to Arduino directly
 * Optional: CS4344 Audio-DAC with I2S-Interface
 
 UltraNet-Channel 1-8 and 9-16 are connected to the SI-52008-F via Ethernet-Cable. TD+ and TD- of each pair is then connected to the AM26LV32CD-quad-diff-line-driver-IC that is connected via two wires to the Arduino MKR Vidor 4000.

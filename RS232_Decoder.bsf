@@ -27,16 +27,16 @@ https://fpgasoftware.intel.com/eula.
 	(port
 		(pt 0 32)
 		(input)
-		(text "RX_Data[7..0]" (rect 0 0 59 12)(font "Arial" ))
-		(text "RX_Data[7..0]" (rect 21 27 80 39)(font "Arial" ))
-		(line (pt 0 32)(pt 16 32)(line_width 3))
+		(text "RX_DataReady" (rect 0 0 67 12)(font "Arial" ))
+		(text "RX_DataReady" (rect 21 27 88 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 1))
 	)
 	(port
 		(pt 0 48)
 		(input)
-		(text "RX_DataReady" (rect 0 0 67 12)(font "Arial" ))
-		(text "RX_DataReady" (rect 21 43 88 55)(font "Arial" ))
-		(line (pt 0 48)(pt 16 48)(line_width 1))
+		(text "RX_Data[7..0]" (rect 0 0 59 12)(font "Arial" ))
+		(text "RX_Data[7..0]" (rect 21 43 80 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48)(line_width 3))
 	)
 	(port
 		(pt 248 32)

@@ -19,8 +19,8 @@ entity RS232_Interface is
 			rs232_tra_en					: in std_logic;										-- Byte soll auf TxD abgesetzt werden
 			rs232_dat_in					: in std_logic_vector(7 downto 0);				-- auf TxD abzusetzendes Byte
 			rs232_txd						: out std_logic := '1';								-- RS232 TxD
-			rs232_rec_en					: out std_logic := '0';								-- Byte wurde ueber RxD empfangen
 			rs232_txd_busy					: out std_logic;										-- RS232 TxD besetzt
+			rs232_rec_en					: out std_logic := '0';								-- Byte wurde ueber RxD empfangen
 			rs232_dat_out					: out std_logic_vector(7 downto 0)				-- empfangenes Byte
 			);
 end RS232_Interface;

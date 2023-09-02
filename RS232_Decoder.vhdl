@@ -9,8 +9,8 @@ use IEEE.NUMERIC_STD.ALL;
 entity RS232_Decoder is 
 	port
 	(
-		RX_Data			: in std_logic_vector(7 downto 0);
 		RX_DataReady	: in std_logic;
+		RX_Data			: in std_logic_vector(7 downto 0);
 
 		main_volume	: out std_logic_vector(31 downto 0);
 

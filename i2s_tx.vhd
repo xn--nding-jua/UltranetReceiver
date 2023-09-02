@@ -1,3 +1,8 @@
+-------------------------------------------------------------------------------
+-- I2S Transmitter
+-- based on OpenCore's i2s_interface by Geir Drange (https://opencores.org/projects/i2s_interface)
+-------------------------------------------------------------------------------
+
 library ieee;
 use ieee.std_logic_1164.all;
 

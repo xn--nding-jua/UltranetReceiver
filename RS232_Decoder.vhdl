@@ -1,6 +1,7 @@
--- RS232-Command-Decoder
--- v1.0 13.01.2013
--- Dipl.-Ing. Christian Nöding
+-------------------------------------------------------------------------------
+-- RS232 Command decoder
+-- https://github.com/xn--nding-jua/UltranetReceiver
+-------------------------------------------------------------------------------
 
 library ieee;
 use ieee.std_logic_1164.all;

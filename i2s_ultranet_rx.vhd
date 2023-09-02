@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------------
 -- Receiver for Behringer UltraNet
--- based on OpenCore's i2s_interface
+-- based on OpenCore's i2s_interface by Geir Drange (https://opencores.org/projects/i2s_interface)
 --
 -- UltraNet sends eight 24-bit audio-samples in AES/EBU-format.
 -- this file expects I2S-data converted from AES/EBU

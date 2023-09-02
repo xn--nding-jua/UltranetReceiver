@@ -1,3 +1,8 @@
+-------------------------------------------------------------------------------
+-- Distributor for received Ultranet-Samples
+-- https://github.com/xn--nding-jua/UltranetReceiver
+------------------------------------------------------------------------------- 
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;

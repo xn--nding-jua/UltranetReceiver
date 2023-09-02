@@ -24,7 +24,7 @@ It is planned to use the FPGA to mix all 16 channels into a single L/R-Signal th
 * [ ] add SD-card recording (depends on time...) maybe the I2S stream could be send to the SAMD21 and an Arduino-SD-Card-Shield could be used here? Ideas?
 
 ## Commands
-Via USB with 19200 baud (or via ethernet, if you connect an W55xx-chip to the microcontroller via I2C) a pretty simple ASCII-based command-system can be used to talk to the microcontroller. The following commands are implemented, yet:
+Via USB with 115200 baud (or via ethernet, if you connect an W55xx-chip to the microcontroller via I2C) a pretty simple ASCII-based command-system can be used to talk to the microcontroller. The following commands are implemented, yet:
 * "info?\n" -> will return some status information
 * "vol_chX@Y\n" -> will set the volume of channel X to Y percent. X has to be between 0..16 and Y between 0...100. X=0 will change main-volume
 * "bal_chX@Y\n" -> will adjust the balance of this channel between left (Y=0) and right (Y=100). A value of Y=50 will place this channel in the middle

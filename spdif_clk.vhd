@@ -17,8 +17,8 @@ begin
     process(clk)     
     begin
         if(rising_edge(clk)) then
-            count <=count+1;
-            if(count = 7812) then
+            count <= count + 1;
+            if(count = 7) then -- we are using rising edge, so input-clock is divided by 2! 6.144MHz = (100/2)/8
                 b <= not b;
                 count <=0;
             end if;

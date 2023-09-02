@@ -6,9 +6,9 @@ use ieee.numeric_std.all; -- lib for unsigned and signed
 entity ultranet_demux is
 	port
 	(
-		sample_in		: in std_logic_vector(23 downto 0);
-		channel			: in unsigned(7 downto 0);
-		process_data	: in std_logic;
+		sample_in		: in std_logic_vector(23 downto 0); -- swap endianness of sample-data
+		channel			: in unsigned(2 downto 0);
+		new_data			: in std_logic;
 		
 		ch1_out 			: out std_logic_vector(23 downto 0);
 		ch2_out 			: out std_logic_vector(23 downto 0);
@@ -22,27 +22,44 @@ entity ultranet_demux is
 end entity;
 
 architecture rtl of ultranet_demux is
-begin
-	process(process_data)
+	-- ChangeEndian-function from https://gist.github.com/mrsoliman/992875e525e2789c2b45e80304d327c8
+	function ChangeEndian(vec : std_ulogic_vector) return std_ulogic_vector is
+		variable vRet      : std_ulogic_vector(vec'range);
+		constant cNumBits  : natural := vec'length;
 	begin
-		if (rising_edge(process_data)) then
+		for i in 0 to cNumBits-1 loop
+			vRet(i) := vec(cNumBits-1-i);
+		end loop;
+
+		return vRet;
+	end function ChangeEndian;
+
+	function ChangeEndian(vec : std_logic_vector) return std_logic_vector is
+	begin
+		return std_logic_vector(ChangeEndian(std_ulogic_vector(vec)));
+	end function ChangeEndian;
+begin
+	process(new_data)
+	begin
+		if (rising_edge(new_data)) then
 			-- store individual channels to output-vectors
-			if channel = 1 then
-				ch1_out <= sample_in;
+			
+			if channel = 0 then
+				ch1_out <= ChangeEndian(sample_in);
+			elsif channel = 1 then
+				ch2_out <= ChangeEndian(sample_in);
 			elsif channel = 2 then
-				ch2_out <= sample_in;
+				ch3_out <= ChangeEndian(sample_in);
 			elsif channel = 3 then
-				ch3_out <= sample_in;
+				ch4_out <= ChangeEndian(sample_in);
 			elsif channel = 4 then
-				ch4_out <= sample_in;
+				ch5_out <= ChangeEndian(sample_in);
 			elsif channel = 5 then
-				ch5_out <= sample_in;
+				ch6_out <= ChangeEndian(sample_in);
 			elsif channel = 6 then
-				ch6_out <= sample_in;
+				ch7_out <= ChangeEndian(sample_in);
 			elsif channel = 7 then
-				ch7_out <= sample_in;
-			elsif channel = 8 then
-				ch8_out <= sample_in;
+				ch8_out <= ChangeEndian(sample_in);
 			end if;
 		end if;
 	end process;

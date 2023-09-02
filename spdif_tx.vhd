@@ -1,24 +1,17 @@
--------------------------------------------------------------------------------
--- SP/DIF Transmitter
--- Danny Witberg from ackspace.nl SP/DIF_transmitter_project
---
--- sending stereo-samples with up to 384kHz and 24bits Biphase mark encoded through NRZI 
-------------------------------------------------------------------------------- 
-
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 
-entity spdif_transmitter is
+entity spdif_tx is
  port(
   bit_clock : in std_logic; -- 128x Fsample (6.144MHz for 48K samplerate)
-  sample_l : in std_logic_vector(23 downto 0);
-  sample_r : in std_logic_vector(23 downto 0);
+  data_in : in std_logic_vector(23 downto 0);
+  address_out : out std_logic := '0'; -- 1 address bit means stereo only
   spdif_out : out std_logic
  );
-end entity spdif_transmitter;
+end entity spdif_tx;
 
-architecture behavioral of spdif_transmitter is
+architecture behavioral of spdif_tx is
 
  signal data_in_buffer : std_logic_vector(23 downto 0);
  signal bit_counter : std_logic_vector(5 downto 0) := (others => '0');
@@ -28,7 +21,6 @@ architecture behavioral of spdif_transmitter is
  signal parity : std_logic;
  signal channel_status_shift : std_logic_vector(23 downto 0);
  signal channel_status : std_logic_vector(23 downto 0) := "001000000000000001000000";
- signal channel_r : std_logic := '0';
  
 begin
  
@@ -44,11 +36,7 @@ begin
   if bit_clock'event and bit_clock = '1' then
    parity <= data_in_buffer(23) xor data_in_buffer(22) xor data_in_buffer(21) xor data_in_buffer(20) xor data_in_buffer(19) xor data_in_buffer(18) xor data_in_buffer(17)  xor data_in_buffer(16) xor data_in_buffer(15) xor data_in_buffer(14) xor data_in_buffer(13) xor data_in_buffer(12) xor data_in_buffer(11) xor data_in_buffer(10) xor data_in_buffer(9) xor data_in_buffer(8) xor data_in_buffer(7) xor data_in_buffer(6) xor data_in_buffer(5) xor data_in_buffer(4) xor data_in_buffer(3) xor data_in_buffer(2) xor data_in_buffer(1) xor data_in_buffer(0) xor channel_status_shift(23);
    if bit_counter = "000011" then
-	 if channel_r = '0' then
-     data_in_buffer <= sample_l;
-	 else
-	  data_in_buffer <= sample_r;
-	 end if;
+    data_in_buffer <= data_in;
    end if;
    if bit_counter = "111111" then
     if frame_counter = "101111111" then
@@ -65,17 +53,17 @@ begin
   if bit_clock'event and bit_clock = '1' then
    if bit_counter = "111111" then
     if frame_counter = "101111111" then -- next frame is 0, load preamble Z
-     channel_r <= '0';
+     address_out <= '0';
      channel_status_shift <= channel_status;
      data_out_buffer <= "10011100";
     else
      if frame_counter(0) = '1' then -- next frame is even, load preamble X
       channel_status_shift <= channel_status_shift(22 downto 0) & '0';
       data_out_buffer <= "10010011";
-      channel_r <= '0';
+      address_out <= '0';
      else -- next frame is odd, load preable Y
       data_out_buffer <= "10010110";
-      channel_r <= '1';
+      address_out <= '1';
      end if;
     end if;
    else

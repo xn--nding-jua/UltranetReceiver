@@ -69,8 +69,8 @@ https://fpgasoftware.intel.com/eula.
 	(port
 		(pt 200 48)
 		(output)
-		(text "channel[7..0]" (rect 0 0 49 12)(font "Arial" ))
-		(text "channel[7..0]" (rect 130 43 179 55)(font "Arial" ))
+		(text "channel[2..0]" (rect 0 0 49 12)(font "Arial" ))
+		(text "channel[2..0]" (rect 130 43 179 55)(font "Arial" ))
 		(line (pt 200 48)(pt 184 48)(line_width 3))
 	)
 	(port

@@ -14,7 +14,7 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 entity aes3rx is
    generic (
       -- Registers width, determines minimal baud speed of input AES3 at given master clock frequency
-      reg_width : integer := 6 -- reg_width = 5: locks to any sample rate from 20kHz to 100kHz with 50MHz master clock, reg_width = 6: 20kHz to 200kHz with 100MHz
+      reg_width : integer := 7 -- reg_width = 5: locks to any sample rate from 20kHz to 100kHz with 50MHz master clock, reg_width = 6: 20kHz to 200kHz with 100MHz
    );
    port (
       clk   : in  std_logic;			-- Master clock
@@ -344,4 +344,3 @@ begin
       end if;
    end process;   
 end Behavioral;
-

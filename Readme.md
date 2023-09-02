@@ -10,16 +10,24 @@ It is planned to use the FPGA to mix all 16 channels into a single L/R-Signal th
 **This project is right at the beginning (Alpha State) and is still under development. Feel free to support me!**
 
 ## What's done so far?
-* FPGA-bitstream can be programmed via SAMD21-controller using Arduino IDE (so no special hardware is necessary)
-* receiving of 2 streams of 8-Channel-Ultranet (192kHz AES3-EBU-like) is tested and working
-* 2x 8-channel AES/EBU signal is converted to 2x I2S
-* 2x I2S-signal is converted to 2x 8 individual std_logic_vectors (these are the audio-samples)
-* commercial cheap coaxial-SPDIF-converters can be used to output the audio
+* [x] FPGA-bitstream is included in Arduino-Sketch and will be uploaded to FPGA on each start via integrated SAMD21-controller
+* [x] receiving of 2 streams of each 8-Channel-Ultranet (192kHz AES3-EBU-like) is tested and working (so all 16 channels can be decoded)
+* [x] 2x 8-channel AES/EBU signal is converted to 2x I2S in FPGA and these I2S-signals are then converted to 16 individual std_logic_vectors (these are the audio-samples)
+* [x] via cheap commercial available coaxial-SPDIF-converters audio-output works via arduino-pin
+* [x] communication between FPGA and on-board SAMD21-microcontroller is established and both devices can exchange data with each other (multiple 32-bit unsigned-integers in a command-based way)
+* [x] microcontroller has several interfaces to the world: USB (a simple ASCII-command-system), via ethernet (ASCII-command on port 23 like USB, MQTT, webbrowser)
 
-## What has to be done?
-* implementing volume-control of each channel
-* add controlling via network and USB (Arduino-code for SAMD21-controller)
-* add SD-card recording(depends on time...)
+## What has still to be done?
+* [ ] testing the new command-system, as well as the networking functions
+* [ ] implementing and testing volume-control of each channel (multiplication of received volume-data with received sample-data has to be implemented)
+* [ ] webbrowser has to be implemented
+* [ ] add SD-card recording (depends on time...) maybe the I2S stream could be send to the SAMD21 and an Arduino-SD-Card-Shield could be used here? Ideas?
+
+## Commands
+Via USB with 19200 baud (or via ethernet, if you connect an W55xx-chip to the microcontroller via I2C) a pretty simple ASCII-based command-system can be used to talk to the microcontroller. The following commands are implemented, yet:
+* "info?\n" -> will return some status information
+* "vol_chX@Y\n" -> will set the volume of channel X to Y percent. X has to be between 0..16 and Y between 0...100. X=0 will change main-volume
+* "bal_chX@Y\n" -> will adjust the balance of this channel between left (Y=0) and right (Y=100). A value of Y=50 will place this channel in the middle
 
 ## Hardware
 Only a few components are necessary:

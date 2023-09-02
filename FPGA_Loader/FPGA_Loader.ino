@@ -1,8 +1,19 @@
 /*************************************************************************************
 Ultranet2SPDIF - Converter for Behringer Ultranet to SPDIF or other digital audio
-v0.0.1 built on 10.08.2023
+v0.1.0 built on 02.09.2023
 Dr.-Ing. Christian Nöding, christian@noeding-online.de
+More infos at https://github.com/xn--nding-jua/UltranetReceiver
 Destination-Hardware: Arduino MKR Vidor 4000, SAMD21 Cortex M0+ 32-Bit Microcontroller
+
+Used arduino libraries:
+- Ticker by Stefan Staub
+
+Optional libraries based on preprocessor-switches:
+- Ethernet by Various 2.0.1 (https://github.com/arduino-libraries/Ethernet)
+- I2C_EEPROM Library by Rob Tillaart (https://github.com/RobTillaart/I2C_EEPROM) or Sparkfun External EEPROM-Library https://github.com/sparkfun/SparkFun_External_EEPROM_Arduino_Library
+- 24LC256 EEPROM Library by wvmarle (https://github.com/wvmarle/24LC256) for 24AA/24LC Series
+- PubSubClient by Nick OReily
+
 
  +------------+------------------+--------+------+-----------------+--------+-----------------------+---------+---------+--------+--------+----------+----------+-------------------------+
  | Pin number |  MKR  Board pin  |  PIN   | FPGA | Notes           | Peri.A |     Peripheral B      | Perip.C | Perip.D | Peri.E | Peri.F | Periph.G | Periph.H | Usage for KDEE_HiResPG  |
@@ -62,15 +73,100 @@ Destination-Hardware: Arduino MKR Vidor 4000, SAMD21 Cortex M0+ 32-Bit Microcont
  | 35         |                  |  PA01  |      | XOUT32          |   01   |     |     |     |     |         |   1/01  | TCC2/1 |        |          |          | 
  +------------+------------------+--------+------+-----------------+--------+-----+-----+-----+-----+---------+---------+--------+--------+----------+----------+-------------------------+
 
+EEPROM-Mapping
++-------------+------------------+
+| Address     | Description      |
++-------------+------------------+
+| 00h ... 01h | Version          |
++-------------+------------------+
+| 02h ... 05h | IP-Address       |
++-------------+------------------+
+| 06h ... ... | unused           |
++-------------+------------------+
+| FAh ... FFh | MAC-Address      |
++-------------+------------------+
 
 **************************************************************************************/
 
 #include "FPGA_Loader.h"
 
-
-void setup() {
-	setup_fpga();
+void TimerSecondsFcn() {
+  // toggle LED to show, that we are alive
+  digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
 }
 
+Ticker TimerSeconds(TimerSecondsFcn, 1000, 0, MILLIS);
+
+// ******************** SETUP FUNCTION ********************
+void setup() {
+  // general pin-defintions
+  pinMode(LED_BUILTIN, OUTPUT);
+
+  // load bitstream to FPGA and bring it up
+	setup_fpga();
+
+  // initialize UARTs
+  Serial.begin(115200); // initialize USB-Serial
+  Serial.setTimeout(1000); // Timeout for commands
+  Serial1.begin(19200); // initialize Hardware-UART for communication with FPGA
+
+  // initialize EEPROM
+  #if UseEEPROM == 1
+    eeprom.begin();
+    if (!eeprom.isConnected())
+    {
+      Serial.println("Fatal Error: Can't find eeprom!!!");
+      while(1);
+    }
+
+    #if ShowDebugOutput == 1
+      // read installed EEPROM-size
+      Serial.print("Found EEPROM of size ");
+      Serial.print(eeprom.determineSize(false));
+      Serial.println(" byte.");
+    #endif
+
+    // now load setup from eeprom
+    eeprom.readBlock(0, (uint8_t *) &eeprom_config, sizeof(eeprom_config)); // read eeprom_config from EEPROM
+    eeprom.readBlock(0xFA, (uint8_t *) &config.mac, sizeof(config.mac)); // copy MAC-address from EEPROM to config-struct
+
+    // check if we have a valid IP-Address in eeprom_config
+    if (!((eeprom_config.ip[0]==0) && (eeprom_config.ip[1]==0) && (eeprom_config.ip[2]==0) && (eeprom_config.ip[3]==0))) {
+      // IP-Address seems to be OK, so copy IP-Address found in EEPROM to config-struct
+      config.ip = eeprom_config.ip;
+    }
+  #endif
+
+  #if UseEthernet == 1
+    // initialize ethernet via W5500
+    InitEthernet();
+
+    #if UseMQTT == 1
+      // connect to MQTT-server
+      MQTT_init();
+    #endif
+  #endif
+
+  // Start timers
+  TimerSeconds.start();
+}
+
+// ******************** MAIN FUNCTION ********************
 void loop() {
+  #if UseEthernet == 1
+    // handle ethernet clients
+    HandleHTTPClients();
+    HandleCMDClients();
+
+    #if UseMQTT == 1
+      HandleMQTT();
+    #endif
+  #endif
+
+  // handle communication
+  HandleUSBCommunication();
+  HandleFPGACommunication();
+
+  // update timer
+  TimerSeconds.update();
 }

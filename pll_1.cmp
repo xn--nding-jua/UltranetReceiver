@@ -14,7 +14,7 @@
 --https://fpgasoftware.intel.com/eula.
 
 
-component clock_multiplicator
+component pll_1
 	PORT
 	(
 		inclk0		: IN STD_LOGIC  := '0';

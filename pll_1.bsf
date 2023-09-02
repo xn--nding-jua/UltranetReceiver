@@ -22,7 +22,7 @@ https://fpgasoftware.intel.com/eula.
 (header "symbol" (version "1.2"))
 (symbol
 	(rect 0 0 240 168)
-	(text "clock_multiplicator" (rect 66 0 193 16)(font "Arial" (font_size 10)))
+	(text "pll_1" (rect 107 0 138 16)(font "Arial" (font_size 10)))
 	(text "inst" (rect 8 152 25 164)(font "Arial" ))
 	(port
 		(pt 0 64)

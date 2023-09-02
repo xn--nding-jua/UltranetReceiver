@@ -1,0 +1,7 @@
+set_global_assignment -name IP_TOOL_NAME "ALTPLL"
+set_global_assignment -name IP_TOOL_VERSION "22.1"
+set_global_assignment -name IP_GENERATED_DEVICE_FAMILY "{Cyclone 10 LP}"
+set_global_assignment -name VHDL_FILE [file join $::quartus(qip_path) "pll_1.vhd"]
+set_global_assignment -name MISC_FILE [file join $::quartus(qip_path) "pll_1.bsf"]
+set_global_assignment -name MISC_FILE [file join $::quartus(qip_path) "pll_1.cmp"]
+set_global_assignment -name MISC_FILE [file join $::quartus(qip_path) "pll_1.ppf"]

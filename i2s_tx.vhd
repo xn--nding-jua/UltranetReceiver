@@ -6,10 +6,10 @@ entity i2s_tx is
     		  BITPERFRAME : integer := 24
     		);
 	port (
-    	  clk 		: in std_logic;
+    	clk 		: in std_logic;
         reset 		: in std_logic;
-    	  bclk 		: in std_logic;
-		  lrclk		: in std_logic;
+    	bclk 		: in std_logic;
+		lrclk		: in std_logic;
         sample_l	: in std_logic_vector(DATA_WIDTH - 1 downto 0);
         sample_r	: in std_logic_vector(DATA_WIDTH - 1 downto 0);
         serial_data	: out std_logic;

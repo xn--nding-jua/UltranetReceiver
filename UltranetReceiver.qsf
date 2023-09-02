@@ -162,10 +162,9 @@ set_global_assignment -name VHDL_FILE i2s_lrclk.vhd
 set_global_assignment -name VHDL_FILE i2s.vhd
 set_global_assignment -name VHDL_FILE clk_by_2.vhd
 set_global_assignment -name VHDL_FILE aes3rx.vhd
-set_global_assignment -name VHDL_FILE clock_multiplicator.vhd
+set_global_assignment -name VHDL_FILE pll_1.vhd
 set_global_assignment -name VHDL_FILE RS232_Interface.vhd
 set_global_assignment -name VHDL_FILE RS232_Decoder.vhdl
-set_global_assignment -name QIP_FILE ip/SYSTEM_PLL/SYSTEM_PLL.qip
 set_global_assignment -name BDF_FILE UltranetReceiver.bdf
 set_global_assignment -name SDC_FILE UltranetReceiver.sdc
 set_global_assignment -name VHDL_FILE i2s_bclk.vhd

@@ -4,7 +4,7 @@
 -- MODULE: altpll 
 
 -- ============================================================
--- File Name: clock_multiplicator.vhd
+-- File Name: pll_1.vhd
 -- Megafunction Name(s):
 -- 			altpll
 --
@@ -40,17 +40,17 @@ USE ieee.std_logic_1164.all;
 LIBRARY altera_mf;
 USE altera_mf.all;
 
-ENTITY clock_multiplicator IS
+ENTITY pll_1 IS
 	PORT
 	(
 		inclk0		: IN STD_LOGIC  := '0';
 		c0		: OUT STD_LOGIC ;
 		c1		: OUT STD_LOGIC 
 	);
-END clock_multiplicator;
+END pll_1;
 
 
-ARCHITECTURE SYN OF clock_multiplicator IS
+ARCHITECTURE SYN OF pll_1 IS
 
 	SIGNAL sub_wire0	: STD_LOGIC ;
 	SIGNAL sub_wire1	: STD_LOGIC_VECTOR (1 DOWNTO 0);
@@ -153,7 +153,7 @@ BEGIN
 		compensate_clock => "CLK0",
 		inclk0_input_frequency => 20833,
 		intended_device_family => "Cyclone 10 LP",
-		lpm_hint => "CBX_MODULE_PREFIX=clock_multiplicator",
+		lpm_hint => "CBX_MODULE_PREFIX=pll_1",
 		lpm_type => "altpll",
 		operation_mode => "NORMAL",
 		pll_type => "AUTO",
@@ -284,7 +284,7 @@ END SYN;
 -- Retrieval info: PRIVATE: PLL_PFDENA_CHECK STRING "0"
 -- Retrieval info: PRIVATE: PLL_TARGET_HARCOPY_CHECK NUMERIC "0"
 -- Retrieval info: PRIVATE: PRIMARY_CLK_COMBO STRING "inclk0"
--- Retrieval info: PRIVATE: RECONFIG_FILE STRING "clock_multiplicator.mif"
+-- Retrieval info: PRIVATE: RECONFIG_FILE STRING "pll_1.mif"
 -- Retrieval info: PRIVATE: SACN_INPUTS_CHECK STRING "0"
 -- Retrieval info: PRIVATE: SCAN_FEATURE_ENABLED STRING "1"
 -- Retrieval info: PRIVATE: SELF_RESET_LOCK_LOSS STRING "0"
@@ -373,11 +373,11 @@ END SYN;
 -- Retrieval info: CONNECT: @inclk 0 0 1 0 inclk0 0 0 0 0
 -- Retrieval info: CONNECT: c0 0 0 0 0 @clk 0 0 1 0
 -- Retrieval info: CONNECT: c1 0 0 0 0 @clk 0 0 1 1
--- Retrieval info: GEN_FILE: TYPE_NORMAL clock_multiplicator.vhd TRUE
--- Retrieval info: GEN_FILE: TYPE_NORMAL clock_multiplicator.ppf TRUE
--- Retrieval info: GEN_FILE: TYPE_NORMAL clock_multiplicator.inc FALSE
--- Retrieval info: GEN_FILE: TYPE_NORMAL clock_multiplicator.cmp TRUE
--- Retrieval info: GEN_FILE: TYPE_NORMAL clock_multiplicator.bsf TRUE
--- Retrieval info: GEN_FILE: TYPE_NORMAL clock_multiplicator_inst.vhd FALSE
+-- Retrieval info: GEN_FILE: TYPE_NORMAL pll_1.vhd TRUE
+-- Retrieval info: GEN_FILE: TYPE_NORMAL pll_1.ppf TRUE
+-- Retrieval info: GEN_FILE: TYPE_NORMAL pll_1.inc FALSE
+-- Retrieval info: GEN_FILE: TYPE_NORMAL pll_1.cmp TRUE
+-- Retrieval info: GEN_FILE: TYPE_NORMAL pll_1.bsf TRUE
+-- Retrieval info: GEN_FILE: TYPE_NORMAL pll_1_inst.vhd FALSE
 -- Retrieval info: LIB_FILE: altera_mf
 -- Retrieval info: CBX_MODULE_PREFIX: ON

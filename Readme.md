@@ -63,13 +63,13 @@ Connectors at the Vidor 4000:
 * Click "Processing" -> "Start Compilation..."
 
 ### Arduino
-* close Arduino IDE, if still opened. Otherwise the bitstream.h will no update correctly!
-* go into the subfolder "FPGA_Loader" and run the batch-file "update_fpga_bitstream.bat"
-* Open Arduino IDE 2.x
-* Select "Arudino MKR Vidor 4000" as destination
-* Click "Sketch" -> "Upload" to upload the FPGA-bitstream to the SAMD21-controller
+* open the subfolder "FPGA_Loader" and run the batch-file "update_fpga_bitstream.bat". The FPGA-bitstream will be converted into bitstream.h to be uploaded with Arduino-sketch
+* Within Arduino IDE Select "Arudino MKR Vidor 4000" as destination
+* Click "Sketch" -> "Upload" to upload the FPGA-bitstream to the connected SAMD21-controller (MKR Vidor 4000)
+
+Arduino 2.x and later will update the bitstream.h automatically. Older versions of Arduino has to be closed and reopened to get the changes on bitstream.h
 
 ### Optional:
 * Click "Sketch" -> "Exort Compiled Binary"
 * copy the file "build\arduino.samd.mkrvidor4000\FPGA_Loader.ino.bin" into the folder "Uploader"
-* run the file "Update_FPGA.bat"
+* run the file "Update_FPGA.bat" to upload the new firmware without an installed Arduino IDE

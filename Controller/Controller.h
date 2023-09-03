@@ -1,17 +1,17 @@
-const char* versionstring = "v0.1.0";
+const char* versionstring = "v0.4.0";
 const char compile_date[] = __DATE__ " " __TIME__;
 
 // some compiler-switches for optional functions
-#define ShowDebugOutput 0
+#define ShowDebugOutput 0 // some additional string-output on serial (USB)
 #define UseEthernet 0
-#define UseDHCP 1
-#define UseEEPROM 0
+#define UseEEPROM 0 // enable, if you want to use an EEPROM with integrated MAC-Address
 #define UseMQTT 0
+#define EthernetChipSelectPin 7 // enter correct CS-pin for connected ethernet-hardware
 
 #if UseMQTT == 1
   // setup MQTT
-  #define mqtt_id "UltranetReceiver"
-  #define mqtt_server "192.168.0.xxx"
+  #define mqtt_id "UltranetReceiver" // name can be changed to fit your MQTT-environment
+  #define mqtt_server "192.168.0.xxx" // enter the IP-address of your MQTT-server here
   #define mqtt_serverport 1883
 
   // at the end of this topic the channel-number will be added automatically
@@ -34,39 +34,8 @@ const char compile_date[] = __DATE__ " " __TIME__;
   #include <PubSubClient.h>
 #endif
 
-#if UseEthernet == 1
-  // includes for ethernet
-  #include <Ethernet.h>
-
-  struct{
-    IPAddress ip = IPAddress(192, 168, 0, 42);
-    uint8_t mac[6] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-  } config;
-
-  EthernetServer server(80);
-  EthernetServer cmdserver(23);
-
-  #if UseMQTT == 1
-    EthernetClient mqttnetworkclient;
-    PubSubClient mqttclient(mqttnetworkclient);
-  #endif
-#endif
-
-#if UseEEPROM == 1
-  // includes for I2C EEPROM with integrated MAC-address
-  #include "Wire.h"
-  #include "I2C_eeprom.h"
-  #define EEPROM_Address 0x50
-  I2C_eeprom eeprom(EEPROM_Address, I2C_DEVICESIZE_24LC16);
-
-  struct{ // don't change order of struct! Just add variables or replace with same size!!!
-    uint16_t Version = 0;
-    IPAddress ip;
-  } eeprom_config;
-#endif
-
 // defines for FPGA
-uint8_t FPGA_Version = 0;
+uint8_t FPGA_Version = 0; // will be read from FPGA directly
 
 // variables
 struct {

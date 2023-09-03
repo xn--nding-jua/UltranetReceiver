@@ -1,20 +1,37 @@
 #if UseEthernet == 1
-  void InitEthernet() {
-    Ethernet.init(7);
+  // includes for ethernet
+  #include <Ethernet.h>
 
-    #if UseDHCP == 0
+  struct{
+    IPAddress ip = IPAddress(192, 168, 0, 42);
+    uint8_t mac[6] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
+    uint8_t UseDHCP = 0;
+  } config;
+
+  EthernetServer server(80);
+  EthernetServer cmdserver(23);
+
+  #if UseMQTT == 1
+    EthernetClient mqttnetworkclient;
+    PubSubClient mqttclient(mqttnetworkclient);
+  #endif
+
+  void InitEthernet() {
+    Ethernet.init(EthernetChipSelectPin);
+
+    if (config.UseDHCP == 0) {
+      // use static IP-address
       Ethernet.begin(config.mac, config.ip);
-    #else
+    }else{
+      // use DHCP for gathering IP-address
       Ethernet.begin(config.mac);
-    #endif
+    }
     
     if (Ethernet.hardwareStatus() == EthernetNoHardware) {
       #if ShowDebugOutput == 1
         Serial.println("Ethernet shield was not found.  Sorry, can't run without hardware. :(");
       #endif
-      while (true) {
-        delay(1); // do nothing, no point running without Ethernet hardware
-      }
+      return;
     }
 
     if (Ethernet.linkStatus() == LinkOFF) {
@@ -152,7 +169,6 @@
   #endif
 #endif
 
-
 // USB-CMD-Receiver
 void HandleUSBCommunication() {
   if (Serial.available() > 0) {
@@ -208,9 +224,44 @@ String ExecuteCommand(String Command) {
       }else{
         Answer = "ERROR: Channel or value out of range!";
       }
+    #if UseEthernet == 1
+    }else if (Command.indexOf("set_ip") > -1){
+        // received command "set_ip@192.168.0.42"
+        String ip_string = Command.substring(Command.indexOf("@")+1) + "."; // create ip_string = 192.168.0.42.
+        uint8_t ip0 = split(ip_string, '.', 0).toInt();
+        uint8_t ip1 = split(ip_string, '.', 1).toInt();
+        uint8_t ip2 = split(ip_string, '.', 2).toInt();
+        uint8_t ip3 = split(ip_string, '.', 3).toInt();
+
+        config.ip = IPAddress(ip0, ip1, ip2, ip3);
+
+        // reinitialize ethernet
+        InitEthernet();
+
+        Answer = "OK";
+    }else if (Command.indexOf("set_dhcp") > -1){
+      uint8_t value = Command.substring(Command.indexOf("@")+1).toInt();
+
+      if ((value==0) || (value==1)) {
+        config.UseDHCP = value;
+        Answer = "OK";
+      }else{
+        Answer = "ERROR: Value out of range!";
+      }
+    #endif
+    #if UseEEPROM == 1
+    }else if (Command.indexOf("save_config") > -1){
+      // received command "save_config"
+      saveConfig();
+      Answer = "OK";
+    #endif
     }else if (Command.indexOf("info?") > -1){
       // send general information about this device
-      Answer = "Ultranet Receiver " + String(versionstring) + "\nFPGA-Version v" + String(FPGA_Version) + "\nCompiled on " + String(compile_date) + "\nInfos: https://github.com/xn--nding-jua/UltranetReceiver";
+      #if UseEEPROM == 0
+        Answer = "Ultranet Receiver " + String(versionstring) + "\nFPGA-Version v" + String(FPGA_Version) + "\nCompiled on " + String(compile_date) + "\nInfos: https://github.com/xn--nding-jua/UltranetReceiver";
+      #else
+        Answer = "Ultranet Receiver " + String(versionstring) + "\nFPGA-Version v" + String(FPGA_Version) + "\nCompiled on " + String(compile_date) + "\nInfos: https://github.com/xn--nding-jua/UltranetReceiver\nIP-Address = " + IpAddress2String(config.ip) + "\nMAC-Address = " + mac2String(config.mac);
+      #endif
     }
   }else{
     // insufficient data -> ignore this

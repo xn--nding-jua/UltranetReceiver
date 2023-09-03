@@ -17,7 +17,7 @@ The FPGA allows volume-control and left/right-balancing of all 16 channels into 
 * [x] working audio-mixer-functions for all 16 channels with left/right-balancing
 
 ## What has still to be done?
-* [ ] test network-functions and MQTT. Implement command to set static IP-address
+* [ ] test network-functions and MQTT
 * [ ] webbrowser has to be implemented
 * [ ] add SD-card recording (depends on time...) maybe the I2S stream could be send to the SAMD21 and an Arduino-SD-Card-Shield could be used here? Ideas?
 
@@ -27,7 +27,12 @@ Via USB with 19200 baud (or via ethernet, if you connect an W55xx-chip to the mi
 * "vol_main_r@Y\n" -> set main-right-volume to 0...100
 * "vol_chX@Y\n" -> will set the volume of channel X to Y percent. X has to be between 1..16 and Y between 0...100
 * "bal_chX@Y\n" -> will adjust the balance of this channel between left (Y=0) and right (Y=100). A value of Y=50 will place this channel in the middle
+* "set_ip@xxx.xxx.xxx.xxx\n" -> set static IP-address to desired value.
+* "set_dhcp@x\n" -> enables (x=1) or disables (x=0) DHCP
+* "save_config\n" -> stores static IP-address to EEPROM
 * "info?\n" -> will return some status information
+
+Ethernet- or EEPROM-related commands are available, when ethernet or EEPROM is enabled in preprocessor (see Controller.h).
 
 ## Hardware
 Only a few components are necessary:

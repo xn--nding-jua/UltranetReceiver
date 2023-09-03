@@ -1,9 +1,9 @@
 /*************************************************************************************
 Ultranet2SPDIF - Converter for Behringer Ultranet to SPDIF or other digital audio
-v0.1.0 built on 02.09.2023
+v0.4.0 built on 04.09.2023
 Dr.-Ing. Christian Nöding, christian@noeding-online.de
 More infos at https://github.com/xn--nding-jua/UltranetReceiver
-Destination-Hardware: Arduino MKR Vidor 4000, SAMD21 Cortex M0+ 32-Bit Microcontroller
+Destination-Hardware: Arduino MKR Vidor 4000 with SAMD21 Cortex M0+ 32-Bit Microcontroller
 
 Used arduino libraries:
 - Ticker by Stefan Staub
@@ -112,29 +112,8 @@ void setup() {
 
   // initialize EEPROM
   #if UseEEPROM == 1
-    eeprom.begin();
-    if (!eeprom.isConnected())
-    {
-      Serial.println("Fatal Error: Can't find eeprom!!!");
-      while(1);
-    }
-
-    #if ShowDebugOutput == 1
-      // read installed EEPROM-size
-      Serial.print("Found EEPROM of size ");
-      Serial.print(eeprom.determineSize(false));
-      Serial.println(" byte.");
-    #endif
-
-    // now load setup from eeprom
-    eeprom.readBlock(0, (uint8_t *) &eeprom_config, sizeof(eeprom_config)); // read eeprom_config from EEPROM
-    eeprom.readBlock(0xFA, (uint8_t *) &config.mac, sizeof(config.mac)); // copy MAC-address from EEPROM to config-struct
-
-    // check if we have a valid IP-Address in eeprom_config
-    if (!((eeprom_config.ip[0]==0) && (eeprom_config.ip[1]==0) && (eeprom_config.ip[2]==0) && (eeprom_config.ip[3]==0))) {
-      // IP-Address seems to be OK, so copy IP-Address found in EEPROM to config-struct
-      config.ip = eeprom_config.ip;
-    }
+    InitEEPROM();
+    readConfig();
   #endif
 
   #if UseEthernet == 1

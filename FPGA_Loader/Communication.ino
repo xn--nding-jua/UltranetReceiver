@@ -176,11 +176,17 @@ String ExecuteCommand(String Command) {
       if ((channel>=0) && (channel<=16)) // ch==0==main
       {
         data_32b fpga_data;
-        fpga_data.u32 = value; // this value will be transmitted to FPGA and is available std_logic_vector(31 downto 0).
+
+        // value is between 0...100. We will change this value to meet 0..24bit = 0..16777216-1 to make calculation in FPGA a bit easier
+        // within FPGA we will do an integer-calculation like: (AudioSampleData * ReceivedValueFromMicrocontroller) / FullScale24bit = DataForDAC
+        fpga_data.u32 = (value*167772.15f); // this value will be transmitted to FPGA and is available std_logic_vector(31 downto 0).
 
         if (Command.indexOf("vol_ch") > -1) {
+
+          // TODO: at the moment we are sending values for left-channel. This has to be changed to general volume
           SendDataToFPGA(channel, fpga_data);
         }else if (Command.indexOf("bal_ch") > -1) {
+          // TODO: at the moment we are sending values for right-channel. This has to be changed to balance
           SendDataToFPGA(channel + 17, fpga_data); // we have to take main in account, so +17
         }
 
@@ -196,15 +202,20 @@ String ExecuteCommand(String Command) {
 }
 
 // FPGA-Transmitter
-void SendDataToFPGA(uint8_t channel, data_32b data) {
-  byte SerialCommand[7];
+void SendDataToFPGA(uint8_t cmd, data_32b data) {
+  byte SerialCommand[9];
+  data_16b ErrorCheckWord;
+
+  ErrorCheckWord.u16 = data.u8[0] + data.u8[1] + data.u8[2] + data.u8[3];
 
   SerialCommand[0] = 65;  // A = start of command
-  SerialCommand[1] = channel;
-  SerialCommand[2] = data.u8[3];
+  SerialCommand[1] = cmd;
+  SerialCommand[2] = data.u8[3]; // MSB of payload
   SerialCommand[3] = data.u8[2];
   SerialCommand[4] = data.u8[1];
-  SerialCommand[5] = data.u8[0];
-  SerialCommand[6] = 69;  // E =  end of command
+  SerialCommand[5] = data.u8[0]; // LSB of payload
+  SerialCommand[6] = ErrorCheckWord.u8[1]; // MSB
+  SerialCommand[7] = ErrorCheckWord.u8[0]; // LSB
+  SerialCommand[8] = 69;  // E =  end of command
   Serial1.write(SerialCommand, sizeof(SerialCommand));
 }

@@ -154,6 +154,7 @@ set_location_assignment PIN_D3 -to bMKR_D19
 set_location_assignment PIN_F3 -to bMKR_D20
 set_location_assignment PIN_G2 -to bMKR_D21
 set_location_assignment PIN_P3 -to bMKR_D2
+set_global_assignment -name VHDL_FILE division.vhd
 set_global_assignment -name VHDL_FILE multiplication.vhd
 set_global_assignment -name VHDL_FILE uart_tx_clk.vhd
 set_global_assignment -name VHDL_FILE i2s_ultranet_rx.vhd

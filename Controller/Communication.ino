@@ -128,7 +128,7 @@
 
           // send the received value to the FPGA
           data_32b fpga_data;
-          fpga_data.u32 = trunc(value);
+          fpga_data.u32 = trunc(value*2.56f);
 
           if (String(topic) == (mqtt_topic_volume + String(ch))) {
             SendDataToFPGA(ch, fpga_data);
@@ -177,9 +177,9 @@ String ExecuteCommand(String Command) {
       {
         data_32b fpga_data;
 
-        // value is between 0...100. We will change this value to meet 0..24bit = 0..16777216-1 to make calculation in FPGA a bit easier
-        // within FPGA we will do an integer-calculation like: (AudioSampleData * ReceivedValueFromMicrocontroller) / FullScale24bit = DataForDAC
-        fpga_data.u32 = (value*167772.15f); // this value will be transmitted to FPGA and is available std_logic_vector(31 downto 0).
+        // value is between 0...100. We will change this value to meet 8bit = 0..256 to make calculation in FPGA a bit easier
+        // within FPGA we will do an integer-calculation like: ((AudioSampleData * ReceivedValueFromMicrocontroller) >> 8) = DataForDAC
+        fpga_data.u32 = trunc(value*2.56f); // this value will be transmitted to FPGA and is available std_logic_vector(31 downto 0).
 
         if (Command.indexOf("vol_ch") > -1) {
 

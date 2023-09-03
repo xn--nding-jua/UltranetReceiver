@@ -1,0 +1,155 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 2022  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and any partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details, at
+https://fpgasoftware.intel.com/eula.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 16 16 240 320)
+	(text "audio_sum" (rect 5 0 48 12)(font "Arial" ))
+	(text "inst" (rect 8 288 20 300)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "ch1_in[top..0]" (rect 0 0 51 12)(font "Arial" ))
+		(text "ch1_in[top..0]" (rect 21 27 72 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 3))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "ch2_in[top..0]" (rect 0 0 53 12)(font "Arial" ))
+		(text "ch2_in[top..0]" (rect 21 43 74 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48)(line_width 3))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "ch3_in[top..0]" (rect 0 0 53 12)(font "Arial" ))
+		(text "ch3_in[top..0]" (rect 21 59 74 71)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64)(line_width 3))
+	)
+	(port
+		(pt 0 80)
+		(input)
+		(text "ch4_in[top..0]" (rect 0 0 54 12)(font "Arial" ))
+		(text "ch4_in[top..0]" (rect 21 75 75 87)(font "Arial" ))
+		(line (pt 0 80)(pt 16 80)(line_width 3))
+	)
+	(port
+		(pt 0 96)
+		(input)
+		(text "ch5_in[top..0]" (rect 0 0 53 12)(font "Arial" ))
+		(text "ch5_in[top..0]" (rect 21 91 74 103)(font "Arial" ))
+		(line (pt 0 96)(pt 16 96)(line_width 3))
+	)
+	(port
+		(pt 0 112)
+		(input)
+		(text "ch6_in[top..0]" (rect 0 0 53 12)(font "Arial" ))
+		(text "ch6_in[top..0]" (rect 21 107 74 119)(font "Arial" ))
+		(line (pt 0 112)(pt 16 112)(line_width 3))
+	)
+	(port
+		(pt 0 128)
+		(input)
+		(text "ch7_in[top..0]" (rect 0 0 53 12)(font "Arial" ))
+		(text "ch7_in[top..0]" (rect 21 123 74 135)(font "Arial" ))
+		(line (pt 0 128)(pt 16 128)(line_width 3))
+	)
+	(port
+		(pt 0 144)
+		(input)
+		(text "ch8_in[top..0]" (rect 0 0 53 12)(font "Arial" ))
+		(text "ch8_in[top..0]" (rect 21 139 74 151)(font "Arial" ))
+		(line (pt 0 144)(pt 16 144)(line_width 3))
+	)
+	(port
+		(pt 0 160)
+		(input)
+		(text "ch9_in[top..0]" (rect 0 0 53 12)(font "Arial" ))
+		(text "ch9_in[top..0]" (rect 21 155 74 167)(font "Arial" ))
+		(line (pt 0 160)(pt 16 160)(line_width 3))
+	)
+	(port
+		(pt 0 176)
+		(input)
+		(text "ch10_in[top..0]" (rect 0 0 56 12)(font "Arial" ))
+		(text "ch10_in[top..0]" (rect 21 171 77 183)(font "Arial" ))
+		(line (pt 0 176)(pt 16 176)(line_width 3))
+	)
+	(port
+		(pt 0 192)
+		(input)
+		(text "ch11_in[top..0]" (rect 0 0 55 12)(font "Arial" ))
+		(text "ch11_in[top..0]" (rect 21 187 76 199)(font "Arial" ))
+		(line (pt 0 192)(pt 16 192)(line_width 3))
+	)
+	(port
+		(pt 0 208)
+		(input)
+		(text "ch12_in[top..0]" (rect 0 0 56 12)(font "Arial" ))
+		(text "ch12_in[top..0]" (rect 21 203 77 215)(font "Arial" ))
+		(line (pt 0 208)(pt 16 208)(line_width 3))
+	)
+	(port
+		(pt 0 224)
+		(input)
+		(text "ch13_in[top..0]" (rect 0 0 56 12)(font "Arial" ))
+		(text "ch13_in[top..0]" (rect 21 219 77 231)(font "Arial" ))
+		(line (pt 0 224)(pt 16 224)(line_width 3))
+	)
+	(port
+		(pt 0 240)
+		(input)
+		(text "ch14_in[top..0]" (rect 0 0 57 12)(font "Arial" ))
+		(text "ch14_in[top..0]" (rect 21 235 78 247)(font "Arial" ))
+		(line (pt 0 240)(pt 16 240)(line_width 3))
+	)
+	(port
+		(pt 0 256)
+		(input)
+		(text "ch15_in[top..0]" (rect 0 0 56 12)(font "Arial" ))
+		(text "ch15_in[top..0]" (rect 21 251 77 263)(font "Arial" ))
+		(line (pt 0 256)(pt 16 256)(line_width 3))
+	)
+	(port
+		(pt 0 272)
+		(input)
+		(text "ch16_in[top..0]" (rect 0 0 56 12)(font "Arial" ))
+		(text "ch16_in[top..0]" (rect 21 267 77 279)(font "Arial" ))
+		(line (pt 0 272)(pt 16 272)(line_width 3))
+	)
+	(port
+		(pt 224 32)
+		(output)
+		(text "sum_out[top..0]" (rect 0 0 62 12)(font "Arial" ))
+		(text "sum_out[top..0]" (rect 141 27 203 39)(font "Arial" ))
+		(line (pt 224 32)(pt 208 32)(line_width 3))
+	)
+	(parameter
+		"top"
+		"23"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(drawing
+		(rectangle (rect 16 16 208 288)(line_width 1))
+	)
+	(annotation_block (parameter)(rect 240 -64 340 16))
+)

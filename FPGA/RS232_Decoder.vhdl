@@ -19,37 +19,51 @@ entity RS232_Decoder is
 		main_volume_r	: out std_logic_vector(23 downto 0);
 
 		ch1_volume_l	: out std_logic_vector(23 downto 0);
-		ch2_volume_l	: out std_logic_vector(23 downto 0);
-		ch3_volume_l	: out std_logic_vector(23 downto 0);
-		ch4_volume_l	: out std_logic_vector(23 downto 0);
-		ch5_volume_l	: out std_logic_vector(23 downto 0);
-		ch6_volume_l	: out std_logic_vector(23 downto 0);
-		ch7_volume_l	: out std_logic_vector(23 downto 0);
-		ch8_volume_l	: out std_logic_vector(23 downto 0);
-		ch9_volume_l	: out std_logic_vector(23 downto 0);
-		ch10_volume_l	: out std_logic_vector(23 downto 0);
-		ch11_volume_l	: out std_logic_vector(23 downto 0);
-		ch12_volume_l	: out std_logic_vector(23 downto 0);
-		ch13_volume_l	: out std_logic_vector(23 downto 0);
-		ch14_volume_l	: out std_logic_vector(23 downto 0);
-		ch15_volume_l	: out std_logic_vector(23 downto 0);
-		ch16_volume_l	: out std_logic_vector(23 downto 0);
-
 		ch1_volume_r	: out std_logic_vector(23 downto 0);
+
+		ch2_volume_l	: out std_logic_vector(23 downto 0);
 		ch2_volume_r	: out std_logic_vector(23 downto 0);
+
+		ch3_volume_l	: out std_logic_vector(23 downto 0);
 		ch3_volume_r	: out std_logic_vector(23 downto 0);
+
+		ch4_volume_l	: out std_logic_vector(23 downto 0);
 		ch4_volume_r	: out std_logic_vector(23 downto 0);
+
+		ch5_volume_l	: out std_logic_vector(23 downto 0);
 		ch5_volume_r	: out std_logic_vector(23 downto 0);
+
+		ch6_volume_l	: out std_logic_vector(23 downto 0);
 		ch6_volume_r	: out std_logic_vector(23 downto 0);
+
+		ch7_volume_l	: out std_logic_vector(23 downto 0);
 		ch7_volume_r	: out std_logic_vector(23 downto 0);
+
+		ch8_volume_l	: out std_logic_vector(23 downto 0);
 		ch8_volume_r	: out std_logic_vector(23 downto 0);
+
+		ch9_volume_l	: out std_logic_vector(23 downto 0);
 		ch9_volume_r	: out std_logic_vector(23 downto 0);
+
+		ch10_volume_l	: out std_logic_vector(23 downto 0);
 		ch10_volume_r	: out std_logic_vector(23 downto 0);
+
+		ch11_volume_l	: out std_logic_vector(23 downto 0);
 		ch11_volume_r	: out std_logic_vector(23 downto 0);
+
+		ch12_volume_l	: out std_logic_vector(23 downto 0);
 		ch12_volume_r	: out std_logic_vector(23 downto 0);
+
+		ch13_volume_l	: out std_logic_vector(23 downto 0);
 		ch13_volume_r	: out std_logic_vector(23 downto 0);
+
+		ch14_volume_l	: out std_logic_vector(23 downto 0);
 		ch14_volume_r	: out std_logic_vector(23 downto 0);
+
+		ch15_volume_l	: out std_logic_vector(23 downto 0);
 		ch15_volume_r	: out std_logic_vector(23 downto 0);
+
+		ch16_volume_l	: out std_logic_vector(23 downto 0);
 		ch16_volume_r	: out std_logic_vector(23 downto 0)
 	);
 end entity;
@@ -75,10 +89,10 @@ begin
 	process (clk)
 		variable b1 : std_logic_vector(7 downto 0);	-- "A" = 0x41
 		variable b2 : std_logic_vector(7 downto 0);	-- C
-		variable b3 : std_logic_vector(7 downto 0);	-- V1 = MSB
+		variable b3 : std_logic_vector(7 downto 0);	-- V1 = MSB of payload
 		variable b4 : std_logic_vector(7 downto 0);	-- V2
 		variable b5 : std_logic_vector(7 downto 0);	-- V3
-		variable b6 : std_logic_vector(7 downto 0);	-- V4 = LSB
+		variable b6 : std_logic_vector(7 downto 0);	-- V4 = LSB of payload
 		variable b7 : std_logic_vector(7 downto 0);	-- ErrorCheckWord_MSB
 		variable b8 : std_logic_vector(7 downto 0);	-- ErrorCheckWord_LSB
 		variable b9 : std_logic_vector(7 downto 0);	-- "E" = 0x45

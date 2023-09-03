@@ -106,7 +106,7 @@ void setup() {
 	setup_fpga();
 
   // initialize UARTs
-  Serial.begin(115200); // initialize USB-Serial
+  Serial.begin(19200); // initialize USB-Serial
   Serial.setTimeout(1000); // Timeout for commands
   Serial1.begin(19200); // initialize Hardware-UART for communication with FPGA
 
@@ -149,6 +149,9 @@ void setup() {
 
   // Start timers
   TimerSeconds.start();
+
+  // send standard-values to FPGA
+  InitAudiomixer();
 }
 
 // ******************** MAIN FUNCTION ********************

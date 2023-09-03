@@ -75,7 +75,7 @@
       // we have an active connection
       if (client.available()) {
         // we have unread data
-        client.println(ExecuteCommand((client.readStringUntil('\n') + ","))); // add leading "," to the command
+        client.println(ExecuteCommand((client.readStringUntil('\n')))); // we are using both CR/LF but we have to read until LF
       }
     }
   }
@@ -119,29 +119,35 @@
     }
 
     void MQTT_processMSG(char* topic, float value) {
-      uint8_t ch;
-
       // check if we have to react on this topic
-      for (ch=0; ch<=16; ch++) { // ch==0==main
-        if ((String(topic) == (mqtt_topic_volume + String(ch))) || (String(topic) == (mqtt_topic_balance + String(ch)))) {
-          // obviously we have to do something
+      if (String(topic) == mqtt_topic_main_l) {
+        audiomixer.mainVolumeLeft = (uint8_t)value;
+        UpdateFPGAAudioEngine(0);
+      }
 
-          // send the received value to the FPGA
-          data_32b fpga_data;
-          fpga_data.u32 = trunc(value*2.56f);
+      if (String(topic) == mqtt_topic_main_r) {
+        audiomixer.mainVolumeRight = (uint8_t)value;
+        UpdateFPGAAudioEngine(0);
+      }
 
-          if (String(topic) == (mqtt_topic_volume + String(ch))) {
-            SendDataToFPGA(ch, fpga_data);
-          }else if (String(topic) == (mqtt_topic_balance + String(ch))) {
-            SendDataToFPGA(ch + 17, fpga_data);
-          }
-
-          // send the received value back via MQTT
-          //mqttclient.publish("ultranetreceiver/answer", String(value).c_str());
+      uint8_t channel;
+      for (channel=1; channel<=16; channel++) {
+        if (String(topic) == (mqtt_topic_volume + String(channel))) {
+          audiomixer.chVolume[channel-1] = (uint8_t)value;
+          UpdateFPGAAudioEngine(channel);
+          break;
+        }
+        
+        if (String(topic) == (mqtt_topic_balance + String(channel))) {
+          audiomixer.chBalance[channel-1] = (uint8_t)value;
+          UpdateFPGAAudioEngine(channel);
           break;
         }
       }
       // TODO: here more topics can be created
+
+      // send the received value back via MQTT
+      //mqttclient.publish("ultranetreceiver/answer", String(value).c_str());
     }
   #endif
 #endif
@@ -150,7 +156,7 @@
 // USB-CMD-Receiver
 void HandleUSBCommunication() {
   if (Serial.available() > 0) {
-    Serial.println(ExecuteCommand(Serial.readStringUntil('\n') + ",")); // we are using both CR/LF but we have to read until LF
+    Serial.println(ExecuteCommand(Serial.readStringUntil('\n'))); // we are using both CR/LF but we have to read until LF
   }
 }
 
@@ -168,37 +174,49 @@ String ExecuteCommand(String Command) {
   if (Command.length()>2){
     // we got a new command. Lets find out what we have to do today...
 
-    if ((Command.indexOf("vol_ch") > -1) || (Command.indexOf("bal_ch") > -1)) {
+    if (Command.indexOf("vol_main_l") > -1) {
+      // received command "vol_main_l@yyy"
+      audiomixer.mainVolumeLeft = Command.substring(Command.indexOf("@")+1).toInt();
+      UpdateFPGAAudioEngine(0); // update main-channel
+      Answer = "OK";
+    }else if (Command.indexOf("vol_main_r") > -1) {
+      // received command "vol_main_r@yyy"
+      audiomixer.mainVolumeRight = Command.substring(Command.indexOf("@")+1).toInt();
+      UpdateFPGAAudioEngine(0); // update main-channel
+      Answer = "OK";
+    }else if (Command.indexOf("vol_ch") > -1) {
       // received command "vol_chxx@yyy"
       uint8_t channel = Command.substring(6, Command.indexOf("@")).toInt();
       uint8_t value = Command.substring(Command.indexOf("@")+1).toInt();
 
-      if ((channel>=0) && (channel<=16)) // ch==0==main
-      {
-        data_32b fpga_data;
-
-        // value is between 0...100. We will change this value to meet 8bit = 0..256 to make calculation in FPGA a bit easier
-        // within FPGA we will do an integer-calculation like: ((AudioSampleData * ReceivedValueFromMicrocontroller) >> 8) = DataForDAC
-        fpga_data.u32 = trunc(value*2.56f); // this value will be transmitted to FPGA and is available std_logic_vector(31 downto 0).
-
-        if (Command.indexOf("vol_ch") > -1) {
-
-          // TODO: at the moment we are sending values for left-channel. This has to be changed to general volume
-          SendDataToFPGA(channel, fpga_data);
-        }else if (Command.indexOf("bal_ch") > -1) {
-          // TODO: at the moment we are sending values for right-channel. This has to be changed to balance
-          SendDataToFPGA(channel + 17, fpga_data); // we have to take main in account, so +17
-        }
-
+      if ((channel>=1) && (channel<=16) && (value>=0) && (value<=100)) {
+        audiomixer.chVolume[channel-1] = value;
+        UpdateFPGAAudioEngine(channel);
         Answer = "OK";
       }else{
-        Answer = "ERROR: Channel out of range!";
+        Answer = "ERROR: Channel or value out of range!";
+      }
+    }else if (Command.indexOf("bal_ch") > -1) {
+      // received command "bal_chxx@yyy"
+      uint8_t channel = Command.substring(6, Command.indexOf("@")).toInt();
+      uint8_t value = Command.substring(Command.indexOf("@")+1).toInt();
+
+      if ((channel>=1) && (channel<=16) && (value>=0) && (value<=100)) {
+        audiomixer.chBalance[channel-1] = value;
+        UpdateFPGAAudioEngine(channel);
+        Answer = "OK";
+      }else{
+        Answer = "ERROR: Channel or value out of range!";
       }
     }else if (Command.indexOf("info?") > -1){
       // send general information about this device
-      Answer = "Ultranet Receiver " + String(versionstring) + "\nCompiled on " + String(compile_date) + "\nInfos: https://github.com/xn--nding-jua/UltranetReceiver";
+      Answer = "Ultranet Receiver " + String(versionstring) + "\nFPGA-Version v" + String(FPGA_Version) + "\nCompiled on " + String(compile_date) + "\nInfos: https://github.com/xn--nding-jua/UltranetReceiver";
     }
+  }else{
+    // insufficient data -> ignore this
   }
+
+  return Answer;
 }
 
 // FPGA-Transmitter

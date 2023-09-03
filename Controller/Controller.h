@@ -15,8 +15,10 @@ const char compile_date[] = __DATE__ " " __TIME__;
   #define mqtt_serverport 1883
 
   // at the end of this topic the channel-number will be added automatically
-  const char* mqtt_topic_volume = "ultranetreceiver/set/volume/";
-  const char* mqtt_topic_balance = "ultranetreceiver/set/balance/";
+  const char* mqtt_topic_main_l = "ultranetreceiver/set/volume/main_l";
+  const char* mqtt_topic_main_r = "ultranetreceiver/set/volume/main_r";
+  const char* mqtt_topic_volume = "ultranetreceiver/set/volume/ch";
+  const char* mqtt_topic_balance = "ultranetreceiver/set/balance/ch";
   // for more topics, you have to edit functions MQTT_init() to subscribe to
   // the topics and MQTT_processMSG() to do you things on receiving this topic
   // in Communication.ino
@@ -65,6 +67,14 @@ const char compile_date[] = __DATE__ " " __TIME__;
 
 // defines for FPGA
 uint8_t FPGA_Version = 0;
+
+// variables
+struct {
+  uint8_t mainVolumeLeft;
+  uint8_t mainVolumeRight;
+  uint8_t chVolume[16];
+  uint8_t chBalance[16];
+}audiomixer;
 
 // some helpful data-structures
 typedef union 

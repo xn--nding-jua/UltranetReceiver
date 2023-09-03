@@ -4,6 +4,7 @@
 
 # Temporary files
 *.tmp
+Controller/bitstream.h
 
 # Directories
 FPGA/db/

@@ -47,6 +47,6 @@ echo Programming device on %port%...
 goto :flash
 
 :flash
-bossac.exe --port=%port% -I -U true -e -w FPGA_Loader.ino.bin -R
+bossac.exe --port=%port% -I -U true -e -w Controller.ino.bin -R
 echo Update completed.
 pause

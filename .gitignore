@@ -6,18 +6,16 @@
 *.tmp
 
 # Directories
-db/
-FPGA_Loader/build/
+FPGA/db/
+FPGA/greybox_tmp/
+FPGA/incremental_db/
+FPGA/output_files/
+FPGA/Unused/
+Controller/build/
 Documentation/
-greybox_tmp/
-incremental_db/
-output_files/
-Rohdateien/
 PCB/History/
 PCB/__Previews/
 PCB/Project Logs for FPGA_AudioMischpult/
-Unused/
-
 
 # Build results
 [Dd]ebug/

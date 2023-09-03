@@ -134,7 +134,8 @@ begin
 		if rising_edge(clk) then
 			-- receive individual bits for audio-data (24 bits)
 			if pos_edge = '1' and rx_sampledata = '1' then
-				sample_data <= sample_data(sample_data'high - 1 downto 0) & sdata;
+				--sample_data <= sample_data(sample_data'high - 1 downto 0) & sdata;
+				sample_data <= sdata & sample_data(sample_data'high downto 1); -- in AES3/EBU the first bit after preamble is LSB, so we have to shift from the left to the right
 			end if;
 		end if;
 	end process;

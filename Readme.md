@@ -18,6 +18,7 @@ The FPGA allows volume-control and left/right-balancing of all 16 channels into 
 
 ## What has still to be done?
 * [ ] test network-functions and MQTT
+* [ ] test I2S-interface to Cyrrus CS4344-Audio-DAC
 * [ ] webbrowser has to be implemented
 * [ ] add SD-card recording (depends on time...) maybe the I2S stream could be send to the SAMD21 and an Arduino-SD-Card-Shield could be used here? Ideas?
 
@@ -75,6 +76,6 @@ Connectors at the Vidor 4000:
 Arduino 2.x and later will update the bitstream.h automatically. Older versions of Arduino has to be closed and reopened to get the changes on bitstream.h
 
 ### Optional:
-* Click "Sketch" -> "Exort Compiled Binary"
+* Click "Sketch" -> "Export Compiled Binary"
 * copy the file "build\arduino.samd.mkrvidor4000\Controller.ino.bin" into the folder "Uploader"
 * run the file "Update_FPGA.bat" to upload the new firmware without an installed Arduino IDE

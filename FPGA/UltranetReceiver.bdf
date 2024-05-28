@@ -4,7 +4,7 @@ editor if you plan to continue editing the block that represents it in
 the Block Editor! File corruption is VERY likely to occur.
 */
 /*
-Copyright (C) 2022  Intel Corporation. All rights reserved.
+Copyright (C) 2023  Intel Corporation. All rights reserved.
 Your use of Intel Corporation's design tools, logic functions 
 and other software and tools, and any partner logic 
 functions, and any output files from any of the foregoing 
@@ -310,7 +310,7 @@ https://fpgasoftware.intel.com/eula.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
-	(annotation_block (location)(rect 3904 72 3960 96))
+	(annotation_block (location)(rect 3872 80 3928 104))
 )
 (symbol
 	(rect 3464 280 3664 392)
@@ -2541,55 +2541,6 @@ https://fpgasoftware.intel.com/eula.
 	(annotation_block (parameter)(rect 2968 592 3144 632))
 )
 (symbol
-	(rect 3464 56 3640 168)
-	(text "dac_dsm3" (rect 5 0 55 12)(font "Arial" ))
-	(text "inst36" (rect 8 96 36 113)(font "Intel Clear" ))
-	(port
-		(pt 0 32)
-		(input)
-		(text "din[(nbits-1)..0]" (rect 0 0 74 12)(font "Arial" ))
-		(text "din[(nbits-1)..0]" (rect 21 27 95 39)(font "Arial" ))
-		(line (pt 0 32)(pt 16 32)(line_width 3))
-	)
-	(port
-		(pt 0 48)
-		(input)
-		(text "clk" (rect 0 0 14 12)(font "Arial" ))
-		(text "clk" (rect 21 43 35 55)(font "Arial" ))
-		(line (pt 0 48)(pt 16 48))
-	)
-	(port
-		(pt 0 64)
-		(input)
-		(text "clk_ena" (rect 0 0 37 12)(font "Arial" ))
-		(text "clk_ena" (rect 21 59 58 71)(font "Arial" ))
-		(line (pt 0 64)(pt 16 64))
-	)
-	(port
-		(pt 0 80)
-		(input)
-		(text "n_rst" (rect 0 0 24 12)(font "Arial" ))
-		(text "n_rst" (rect 21 75 45 87)(font "Arial" ))
-		(line (pt 0 80)(pt 16 80))
-	)
-	(port
-		(pt 176 32)
-		(output)
-		(text "dout" (rect 0 0 21 12)(font "Arial" ))
-		(text "dout" (rect 138 27 159 39)(font "Arial" ))
-		(line (pt 176 32)(pt 160 32))
-	)
-	(parameter
-		"nbits"
-		"24"
-		""
-		(type "PARAMETER_SIGNED_DEC")	)
-	(drawing
-		(rectangle (rect 16 16 160 96))
-	)
-	(annotation_block (parameter)(rect 3464 8 3640 48))
-)
-(symbol
 	(rect 312 496 552 664)
 	(text "pll_2" (rect 107 0 138 16)(font "Arial" (font_size 10)))
 	(text "inst6" (rect 8 152 31 164)(font "Arial" ))
@@ -2648,6 +2599,41 @@ https://fpgasoftware.intel.com/eula.
 		(line (pt 239 64)(pt 207 64))
 		(line (pt 239 80)(pt 207 80))
 	)
+)
+(symbol
+	(rect 3464 56 3688 136)
+	(text "dac_pdm" (rect 5 0 49 12)(font "Arial" ))
+	(text "inst36" (rect 8 64 36 81)(font "Intel Clear" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "clk" (rect 0 0 14 12)(font "Arial" ))
+		(text "clk" (rect 21 27 35 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "sample_in[(bit_width-1)..0]" (rect 0 0 128 12)(font "Arial" ))
+		(text "sample_in[(bit_width-1)..0]" (rect 21 43 149 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48)(line_width 3))
+	)
+	(port
+		(pt 224 32)
+		(output)
+		(text "output" (rect 0 0 30 12)(font "Arial" ))
+		(text "output" (rect 178 27 208 39)(font "Arial" ))
+		(line (pt 224 32)(pt 208 32))
+	)
+	(parameter
+		"bit_width"
+		"24"
+		""
+		(type "PARAMETER_SIGNED_DEC")	)
+	(drawing
+		(rectangle (rect 16 16 208 64))
+	)
+	(annotation_block (parameter)(rect 3488 8 3664 48))
 )
 (connector
 	(text "clk_32MHz" (rect 242 544 295 561)(font "Intel Clear" ))
@@ -3954,12 +3940,22 @@ https://fpgasoftware.intel.com/eula.
 	(bus)
 )
 (connector
-	(pt 3464 88)
-	(pt 3288 88)
+	(text "clk_4_8MHz" (rect 562 560 621 577)(font "Intel Clear" ))
+	(pt 624 576)
+	(pt 552 576)
+)
+(connector
+	(pt 3288 104)
+	(pt 3464 104)
 	(bus)
 )
 (connector
-	(pt 3288 88)
+	(text "clk_4_8MHz" (rect 3402 72 3461 89)(font "Intel Clear" ))
+	(pt 3392 88)
+	(pt 3464 88)
+)
+(connector
+	(pt 3288 104)
 	(pt 3288 256)
 	(bus)
 )
@@ -3969,18 +3965,8 @@ https://fpgasoftware.intel.com/eula.
 	(bus)
 )
 (connector
-	(pt 3640 88)
+	(pt 3688 88)
 	(pt 3696 88)
-)
-(connector
-	(text "clk_4_8MHz" (rect 562 560 621 577)(font "Intel Clear" ))
-	(pt 624 576)
-	(pt 552 576)
-)
-(connector
-	(text "clk_4_8MHz" (rect 3402 88 3461 105)(font "Intel Clear" ))
-	(pt 3392 104)
-	(pt 3464 104)
 )
 (junction (pt 3480 824))
 (junction (pt 3664 904))
@@ -4012,9 +3998,9 @@ https://fpgasoftware.intel.com/eula.
 (text "12,288 MHz Masterclock (256x LRCLK)" (rect 3736 992 3966 1011)(font "Intel Clear" (font_size 8)))
 (text "48kHz Wordclock" (rect 3744 912 3847 931)(font "Intel Clear" (font_size 8)))
 (text "Audio Mixing" (rect 1952 168 2061 191)(font "Intel Clear" (color 255 0 0)(font_size 12)))
-(text "Digital audio-output (SP/DIF via coaxial TOSLINK)" (rect 3392 -24 3812 -1)(font "Intel Clear" (color 255 0 0)(font_size 12)))
 (text "Output PDM data to A6 = D21" (rect 3696 104 3876 123)(font "Intel Clear" (font_size 8)))
 (text "Using 4.8MHz to achieve 50x decimation-ratio to get 48kHz Audio (fs/2=(4.8MHz/50)/2)" (rect 3464 176 3983 195)(font "Intel Clear" (font_size 8)))
+(text "Analog audio-output (PDM via digital Pin)" (rect 3392 -24 3741 -1)(font "Intel Clear" (color 255 0 0)(font_size 12)))
 (rectangle (rect 32 240 680 760)(color 0 0 255)(line_width 3))
 (rectangle (rect 440 800 1904 1544)(color 0 0 255)(line_width 3))
 (rectangle (rect 712 512 1904 760)(color 0 0 255)(line_width 3))

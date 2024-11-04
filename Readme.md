@@ -9,6 +9,10 @@ The FPGA allows volume-control and left/right-balancing of all 16 channels into 
 
 Communication is realized using simple ASCII-based commands via the USB-connector using a terminal software. This repository was the basis for the fpage-Audioplayer-project that can be found here: https://github.com/xn--nding-jua/Audioplayer
 
+Some more information about this project (german page, but can be translated on the upper right corner):
+* https://www.pcdimmer.de/index.php/hardware/fpga/ultranet-receiver
+* https://www.pcdimmer.de/index.php/hardware/fpga/tutorial-ultranet-receiver
+
 ## What's done so far?
 * [x] FPGA-bitstream is included in Arduino-Sketch and will be uploaded to FPGA on each start via integrated SAMD21-controller
 * [x] receiving of 2 streams of each 8-Channel-Ultranet (192kHz AES3-EBU-like) is tested and working (so all 16 channels can be decoded)
@@ -40,7 +44,7 @@ Only a few components are necessary:
 * Optional: CS4344 Audio-DAC with I2S-Interface
 
 In an internet-forum the connection of UltraNet via a SI-52008-F ethernet-transceiver-chip and an AM26LV32CD-quad-diff-line-driver-IC is recommended. First I had taken this advice into account. But when looking at the Behringer-PCBs this is not necessary as the P16-I is using only a 74LVC245A 3-State-Buffer for outputting the UltraNet-signals.
-The UltraNet-Channels 1-8 (Pin 1 and 2) and 9-16 (Pin 3 and 6) can be connected to the Arduino MKR Vidor 4000 directly using only the Tx+ signals. If you like, you can use a differntial receiver lateron for better signal quality over higher length.
+The UltraNet-Channels 1-8 (Pin 1 and 2) and 9-16 (Pin 3 and 6) can be connected to the Arduino MKR Vidor 4000 directly using only the Tx+ signals. If you like, you can use a differential receiver lateron for better signal quality over higher length.
 
 Optional a CS4344 Audio DAC can be attached to the Vidor 4000 using four wires:
 * MCLK (Masterclock)

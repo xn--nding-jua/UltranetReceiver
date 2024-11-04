@@ -3,9 +3,11 @@
 # UltranetReceiver
 
 ## Overview
-This repository contains a FPGA-based receiver for audio-data based on Behringers Ultranet used in X32, P16-I, P16-M, Wing and more devices. Using a Arduino Vidor 4000 MKR FPGA-board with an Intel Cyclone 10LP, 16 Ultranet-Channels can be decoded.
+This repository contains an FPGA-based receiver for audio-data based on Behringers Ultranet used in X32, P16-I, P16-M, Wing and more devices. Using a Arduino Vidor 4000 MKR FPGA-board with an Intel Cyclone 10LP, 16 Ultranet-Channels can be decoded.
 
 The FPGA allows volume-control and left/right-balancing of all 16 channels into a single L/R-Signal that will be converted to SP/DIF and then to analog audio. Using a Behringer P16-I or other Ultranet-devices, it is possible to create a digital 16-channel mixer controlled by the SAMD21-microcontroller on the Vidor 4000.
+
+Communication is realized using simple ASCII-based commands via the USB-connector using a terminal software. This repository was the basis for the fpage-Audioplayer-project that can be found here: https://github.com/xn--nding-jua/Audioplayer
 
 ## What's done so far?
 * [x] FPGA-bitstream is included in Arduino-Sketch and will be uploaded to FPGA on each start via integrated SAMD21-controller
@@ -16,11 +18,8 @@ The FPGA allows volume-control and left/right-balancing of all 16 channels into 
 * [x] microcontroller has several interfaces to the world: USB (a simple ASCII-command-system), via ethernet (ASCII-command on port 23 like USB, MQTT, webbrowser)
 * [x] working audio-mixer-functions for all 16 channels with left/right-balancing
 
-## What has still to be done?
-* [ ] test network-functions and MQTT
-* [ ] test I2S-interface to Cyrrus CS4344-Audio-DAC
-* [ ] webbrowser has to be implemented
-* [ ] add SD-card recording (depends on time...) maybe the I2S stream could be send to the SAMD21 and an Arduino-SD-Card-Shield could be used here? Ideas?
+## What could be done next?
+* [ ] add SD-card recording. Maybe the I2S stream could be send to the ESP32 or SAMD21 and an Arduino-SD-Card-Shield could be used here? Ideas?
 
 ## Commands
 Via USB with 19200 baud (or via ethernet, if you connect an W55xx-chip to the microcontroller via I2C) a pretty simple ASCII-based command-system can be used to talk to the microcontroller. The following commands are implemented, yet:
@@ -37,12 +36,11 @@ Ethernet- or EEPROM-related commands are available, when ethernet or EEPROM is e
 
 ## Hardware
 Only a few components are necessary:
-* MagJack SI-52008-F for interfacing with UltraNet
-* AM26LV32CD RS-422-IC-Interface Quad Diff
 * cheap TOSLINK/SPDIF audio-converter can be connected to Arduino directly
 * Optional: CS4344 Audio-DAC with I2S-Interface
 
-UltraNet-Channel 1-8 and 9-16 are connected to the SI-52008-F via Ethernet-Cable. TD+ and TD- of each pair is then connected to the AM26LV32CD-quad-diff-line-driver-IC that is connected via two wires to the Arduino MKR Vidor 4000.
+In an internet-forum the connection of UltraNet via a SI-52008-F ethernet-transceiver-chip and an AM26LV32CD-quad-diff-line-driver-IC is recommended. First I had taken this advice into account. But when looking at the Behringer-PCBs this is not necessary as the P16-I is using only a 74LVC245A 3-State-Buffer for outputting the UltraNet-signals.
+The UltraNet-Channels 1-8 (Pin 1 and 2) and 9-16 (Pin 3 and 6) can be connected to the Arduino MKR Vidor 4000 directly using only the Tx+ signals. If you like, you can use a differntial receiver lateron for better signal quality over higher length.
 
 Optional a CS4344 Audio DAC can be attached to the Vidor 4000 using four wires:
 * MCLK (Masterclock)
